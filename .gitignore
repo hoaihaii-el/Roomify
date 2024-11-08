@@ -1,0 +1,10 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/Sources/Server/RoomifyAR/.vs/RoomifyAR/FileContentIndex
+/Sources/Server/RoomifyAR/.vs/RoomifyAR/DesignTimeBuild
+/Sources/Server/RoomifyAR/.vs/RoomifyAR/v17
+/Sources/Server/RoomifyAR/RoomifyAR/obj
+/Sources/Server/RoomifyAR/RoomifyAR/bin/Debug/net8.0
+/Sources/Server/RoomifyAR/.vs/RoomifyAR/config
