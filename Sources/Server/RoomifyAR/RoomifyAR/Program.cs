@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using RoomifyAR.Repositories;
+using RoomifyAR.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,7 @@ builder.Services.AddDbContext<DataContext>(opt =>
     opt.UseSqlServer(builder.Configuration.GetConnectionString("SqlConnection"));
 });
 
+builder.Services.AddScoped(typeof(IProductRepo), typeof(ProductService));
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
