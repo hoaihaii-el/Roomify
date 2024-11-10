@@ -6,7 +6,7 @@ namespace RoomifyAR.Repositories
 {
     public interface IProductRepo
     {
-        Task<Product> Add(ProductRequest product);
+        Task<Product> Add(Product product);
         Task Update(Product product);
         Task<IReadOnlyList<Product>> GetProductsWithSpec(ProductSpec spec);
         Task<IReadOnlyList<Product>> GetNewArrival();

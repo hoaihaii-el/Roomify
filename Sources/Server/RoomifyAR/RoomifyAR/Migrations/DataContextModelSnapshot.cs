@@ -156,6 +156,8 @@ namespace RoomifyAR.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ProductId");
+
                     b.ToTable("ProductMedias");
                 });
 
@@ -214,6 +216,22 @@ namespace RoomifyAR.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Wishlist");
+                });
+
+            modelBuilder.Entity("RoomifyAR.Entities.ProductMedia", b =>
+                {
+                    b.HasOne("RoomifyAR.Entities.Product", "Product")
+                        .WithMany("Medias")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("RoomifyAR.Entities.Product", b =>
+                {
+                    b.Navigation("Medias");
                 });
 #pragma warning restore 612, 618
         }

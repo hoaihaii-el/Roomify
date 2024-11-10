@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RoomifyAR.Entities;
 using RoomifyAR.Repositories;
-using RoomifyAR.Requests;
 using RoomifyAR.Specifications;
 using System.Linq.Expressions;
 
@@ -9,19 +8,17 @@ namespace RoomifyAR.Services
 {
     public class ProductService(DataContext _context) : IProductRepo
     {
-        public async Task<Product> Add(ProductRequest request)
+        public async Task<Product> Add(Product product)
         {
-            var product = new Product
-            {
-                Name = request.Name,
-                Description = request.Description,
-                Price = request.Price,
-                Stock = request.Stock,
-                CategoryId = request.CategoryId,
-                Model3dUrl = request.Model3dUrl,
-            };
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
+
+            if (product.Medias != null && product.Medias.Any())
+            {
+                _context.ProductMedias.AddRange(product.Medias);
+            }
+            await _context.SaveChangesAsync();
+
             return product;
         }
 

@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using RoomifyAR.Entities;
 using RoomifyAR.Repositories;
+using RoomifyAR.Requests;
 using RoomifyAR.Specifications;
 
 namespace RoomifyAR.Controllers
@@ -40,12 +42,14 @@ namespace RoomifyAR.Controllers
             return Ok(await repo.GetByCategory(cateId));
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
-        public async Task<ActionResult> AddProduct(Product product)
+        public async Task<ActionResult> AddProduct(Product request)
         {
-            return Ok(await repo.Add(product));
+            return Ok(await repo.Add(request));
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut()]
         public async Task<ActionResult> Update(Product product)
         {
@@ -53,6 +57,7 @@ namespace RoomifyAR.Controllers
             return Ok();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{Id}")]
         public async Task<ActionResult> Delete(int Id)
         {
