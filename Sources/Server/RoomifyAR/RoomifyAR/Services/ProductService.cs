@@ -55,7 +55,7 @@ namespace RoomifyAR.Services
                 products = products.Skip((spec.PageIndex - 1) * spec.PageSize).Take(spec.PageSize);
             }
 
-            return await products.ToListAsync();
+            return await products.Include(p => p.Medias).ToListAsync();
         }
 
         public async Task<IReadOnlyList<Product>> GetBestSeller()
@@ -63,6 +63,7 @@ namespace RoomifyAR.Services
             return await _context.Products
                 .OrderBy(p => p.Stock)
                 .Take(8)
+                .Include(p => p.Medias)
                 .AsNoTracking()
                 .AsQueryable()
                 .ToListAsync();
@@ -72,6 +73,7 @@ namespace RoomifyAR.Services
         {
             return await _context.Products
                 .Where(p => p.CategoryId == cateId)
+                .Include(p => p.Medias)
                 .AsNoTracking()
                 .AsQueryable()
                 .ToListAsync();
@@ -82,6 +84,7 @@ namespace RoomifyAR.Services
             return await _context.Products
                 .OrderByDescending(p => p.Id)
                 .Take(8)
+                .Include(p => p.Medias)
                 .AsNoTracking()
                 .AsQueryable()
                 .ToListAsync();
@@ -91,6 +94,7 @@ namespace RoomifyAR.Services
         {
             var result = await _context.Products
                 .Where(p => p.Id == id)
+                .Include(p => p.Medias)
                 .AsNoTracking()
                 .AsQueryable()
                 .FirstOrDefaultAsync();
@@ -102,6 +106,8 @@ namespace RoomifyAR.Services
 
             return result;
         }
+
+
 
         public async Task Update(Product product)
         {
@@ -115,6 +121,11 @@ namespace RoomifyAR.Services
             var product = await _context.Products.FindAsync(id);
             _context.Remove(product ?? throw new KeyNotFoundException());
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<IReadOnlyList<Category>> GetCategories()
+        {
+            return await _context.Categories.ToListAsync();
         }
     }
 }

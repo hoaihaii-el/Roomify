@@ -13,6 +13,7 @@ namespace RoomifyAR.Repositories
         Task<IReadOnlyList<Product>> GetBestSeller();
         Task<Product> GetProductById(int id);
         Task<IReadOnlyList<Product>> GetByCategory(int cateId);
+        Task<IReadOnlyList<Category>> GetCategories();
         Task Delete(int id);
     }
 }

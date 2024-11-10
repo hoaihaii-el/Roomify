@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using RoomifyAR.Entities;
 using RoomifyAR.Repositories;
-using RoomifyAR.Requests;
 using RoomifyAR.Specifications;
 
 namespace RoomifyAR.Controllers
@@ -40,6 +39,12 @@ namespace RoomifyAR.Controllers
         public async Task<ActionResult<IEnumerable<Product>>> GetByCategory(int cateId)
         {
             return Ok(await repo.GetByCategory(cateId));
+        }
+
+        [HttpGet("categories")]
+        public async Task<ActionResult<IEnumerable<Category>>> GetCategories()
+        {
+            return Ok(await repo.GetCategories());
         }
 
         [Authorize(Roles = "Admin")]
