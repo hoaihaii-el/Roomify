@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RoomifyAR.Entities;
+using RoomifyAR.Errors;
 using RoomifyAR.Repositories;
+using RoomifyAR.Requests;
 using RoomifyAR.Specifications;
 
 namespace RoomifyAR.Controllers
@@ -68,6 +70,52 @@ namespace RoomifyAR.Controllers
         {
             await repo.Delete(Id);
             return Ok();
+        }
+
+        [HttpPost("add-task-create-model")]
+        public async Task<ActionResult> AddTaskCreate3DModel(TaskCreateModelRequest request)
+        {
+            try
+            {
+                if (request.Images.Count == 0)
+                {
+                    return BadRequest("No image found!");
+                }
+
+                await repo.AddTaskCreate3DModel(request.Images[0], request.ProductId);
+                return Ok("Add task successfully! The creation is in progress.");
+            }
+            catch (CustomException e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpGet("get-model")]
+        public async Task<ActionResult> Get3DModel(int productId)
+        {
+            try
+            {
+                return Ok(await repo.Get3DModel(productId));
+            }
+            catch (CustomException e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpDelete("remove-model")]
+        public async Task<ActionResult> Remove3DModel(int productId)
+        {
+            try
+            {
+                await repo.Delete3DModel(productId);
+                return Ok();
+            }
+            catch
+            {
+                return BadRequest();
+            }
         }
     }
 }

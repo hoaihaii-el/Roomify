@@ -11,6 +11,7 @@ namespace RoomifyAR.Entities
         public int Stock { get; set; }
         public int CategoryId { get; set; }
         public string Model3dUrl { get; set; } = "";
+        public string TaskId { get; set; } = "";
         public List<ProductMedia>? Medias { get; set; }
     }
 }

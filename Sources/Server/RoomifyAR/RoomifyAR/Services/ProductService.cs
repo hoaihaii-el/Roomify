@@ -1,12 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RoomifyAR.Entities;
+using RoomifyAR.Errors;
 using RoomifyAR.Repositories;
 using RoomifyAR.Specifications;
+using RoomifyAR.StaticServices;
 using System.Linq.Expressions;
 
 namespace RoomifyAR.Services
 {
-    public class ProductService(DataContext _context) : IProductRepo
+    public class ProductService(DataContext _context, Model3DManager _modelManager) : IProductRepo
     {
         public async Task<Product> Add(Product product)
         {
@@ -126,6 +128,60 @@ namespace RoomifyAR.Services
         public async Task<IReadOnlyList<Category>> GetCategories()
         {
             return await _context.Categories.ToListAsync();
+        }
+
+        public async Task AddTaskCreate3DModel(string imageUrl, int productId)
+        {
+            var product = await _context.Products.FindAsync(productId);
+            if (product == null)
+            {
+                throw new CustomException("Product not found");
+            }
+
+            var taskId = await _modelManager.AddTaskCreate3DModel(imageUrl);
+            product.TaskId = taskId;
+            _context.Products.Update(product);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<string> Get3DModel(int productId)
+        {
+            var product = await _context.Products.FindAsync(productId);
+            if (product == null)
+            {
+                throw new CustomException("Product not found");
+            }
+
+            if (!string.IsNullOrEmpty(product.Model3dUrl))
+            {
+                return product.Model3dUrl;
+            }
+
+            if (string.IsNullOrEmpty(product.TaskId))
+            {
+                throw new CustomException("This product hasn't had the model 3D yet. Please create one!");
+            }
+
+            var modelUrl = await _modelManager.GetTaskResult(product.TaskId);
+            product.Model3dUrl = modelUrl;
+            _context.Products.Update(product);
+            await _context.SaveChangesAsync();
+            
+            return modelUrl;
+        }
+
+        public async Task Delete3DModel(int productId)
+        {
+            var product = await _context.Products.FindAsync(productId);
+            if (product == null)
+            {
+                throw new CustomException("Product not found");
+            }
+
+            product.TaskId = "";
+            product.Model3dUrl = "";
+            _context.Products.Update(product);
+            await _context.SaveChangesAsync();
         }
     }
 }

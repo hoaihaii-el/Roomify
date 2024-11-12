@@ -1,5 +1,4 @@
 ﻿using RoomifyAR.Entities;
-using RoomifyAR.Requests;
 using RoomifyAR.Specifications;
 
 namespace RoomifyAR.Repositories
@@ -15,5 +14,8 @@ namespace RoomifyAR.Repositories
         Task<IReadOnlyList<Product>> GetByCategory(int cateId);
         Task<IReadOnlyList<Category>> GetCategories();
         Task Delete(int id);
+        Task AddTaskCreate3DModel(string imageUrl, int productId);
+        Task<string> Get3DModel(int productId);
+        Task Delete3DModel(int productId);
     }
 }

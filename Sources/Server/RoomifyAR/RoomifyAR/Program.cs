@@ -22,6 +22,7 @@ builder.Services.AddDbContext<DataContext>(opt =>
 builder.Services.AddScoped(typeof(IProductRepo), typeof(ProductService));
 builder.Services.AddScoped(typeof(IAccountRepo), typeof(AccountService));
 builder.Services.AddSingleton(typeof(JWTManager));
+builder.Services.AddSingleton(typeof(Model3DManager));
 
 builder.Services.AddAuthentication(options =>
 {
