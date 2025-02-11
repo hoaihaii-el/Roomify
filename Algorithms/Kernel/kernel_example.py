@@ -3,6 +3,8 @@ import numpy as np
 import cv2
 import argparse
 
+# run 'python kernel_example.py --image ronaldo.png' in terminal
+
 def convolve(image, kernel):
     (iH, iW) = image.shape[:2]
     (kH, kW) = kernel.shape[:2]
