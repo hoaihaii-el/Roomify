@@ -1,0 +1,20 @@
+<div class="h-[70px] bg-primary px-10 flex flex-row items-center justify-between fixed top-0 left-0 right-0 z-[1000]">
+  <div class="flex flex-row items-center gap-x-5">
+    <img src="./images/logo-white.png" alt="logo.png" class="h-[120px] w-auto cursor-pointer" routerLink="/">
+    <app-search-bar />
+  </div>
+  <div class="flex flex-row gap-x-4">
+    <button
+      routerLink="/login"
+      class="flex flex-row gap-x-2 items-center">
+      <i class="pi pi-user text-white"></i>
+      <p class="text-white">Log in</p>
+    </button>
+    <button
+      pTooltip="3D room"
+      tooltipPosition="bottom"
+      class="flex flex-row gap-x-2 items-center">
+      <i class="pi pi-box text-white text-[20px]" pBadge value="4" badgeStyleClass="bg-secondary"></i>
+    </button>
+  </div>
+</div>
