@@ -1,3 +1,6 @@
 [submodule "Sources/Client/room-styler-ar"]
 	path = Sources/Client/room-styler-ar
 	url = https://github.com/PhuGHs/room-styler-ar.git
+[submodule "Sources/RoomStyleARCore"]
+	path = Sources/RoomStyleARCore
+	url = https://github.com/PhuGHs/AR_RoomStyler
